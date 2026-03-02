@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Sergio 3D</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
+        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #007bff; text-align: center; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #444; }
+        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; margin-top: 20px; font-size: 18px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #218838; }
+        .result { background: #e9ecef; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .price { font-size: 24px; color: #d9534f; font-weight: bold; }
+        .meta { font-size: 14px; color: #666; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Calculadora Sergio 3D</h2>
+    
+    <label>Peso de la pieza (gramos):</label>
+    <input type="number" id="peso" placeholder="Ej: 50" value="0">
+
+    <label>Tiempo de impresión (horas):</label>
+    <input type="number" id="tiempo" placeholder="Ej: 2.5" value="0">
+
+    <label>Costo del rollo (1kg):</label>
+    <input type="number" id="costoRollo" value="22000">
+
+    <button onclick="calcular()">CALCULAR PRECIO</button>
+
+    <div class="result">
+        <div>Precio sugerido de venta:</div>
+        <div class="price" id="total">$ 0.00</div>
+        <div class="meta" id="metaCuota"></div>
+    </div>
+</div>
+
+<script>
+function calcular() {
+    const peso = document.getElementById('peso').value;
+    const tiempo = document.getElementById('tiempo').value;
+    const costoRollo = document.getElementById('costoRollo').value;
+    
+    // FÓRMULA MAESTRA
+    const costoMaterial = (costoRollo / 1000) * peso;
+    const costoEnergiaDesgaste = tiempo * 350; // $350 por hora
+    const manoObra = 1500; // Monto fijo por configuración
+    
+    const subtotal = costoMaterial + costoEnergiaDesgaste + manoObra;
+    const precioFinal = subtotal * 3; // Multiplicador x3
+    
+    document.getElementById('total').innerText = '$ ' + precioFinal.toLocaleString('es-AR', {minimumFractionDigits: 2});
+    
+    // Cálculo para la cuota de $143.000
+    const unidades = Math.ceil(143000 / (precioFinal - subtotal));
+    document.getElementById('metaCuota').innerText = "Vendiendo " + unidades + " de estos pagás la cuota de $143k";
+}
+</script>
+
+</body>
+</html>
